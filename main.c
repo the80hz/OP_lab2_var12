@@ -9,34 +9,26 @@
 #include <stdio.h>
 #include <math.h>
 
-
+double root(double x, int n, double eps)
+{
+    double a0 = pow(x, 1.0 / n);
+    double a1 = 1.0 / n * ((n - 1) * a0 + x / pow(a0, n - 1));
+    while (fabs(a1 - a0) > eps)
+    {
+        a0 = a1;
+        a1 = 1.0 / n * ((n - 1) * a0 + x / pow(a0, n - 1));
+    }
+    return a1;
+}
 
 int main()
 {
-    int n, x, a0, a1, i;
-    double eps;
+    double x, eps;
+    int n;
+    printf("Enter x, n, eps: \n");
+    scanf("%lf %d %lf", &x, &n, &eps);
+    printf("root(%lf, %d, %lf) = %lf", x, n, eps, root(x, n, eps));
 
-    printf("Enter a natural number x:");
-    scanf("%d", &x);
-    printf("Enter a natural number n:");
-    scanf("%d", &n);
-    printf("Enter the eps accuracy:");
-    scanf("%lf", &eps);
-
-    a0 = (int)pow(x, 1.0 / n);
-    a1 = a0 + 1;
-    a0 = (int)pow(a0, n);
-    a1 = (int)pow(a1, n);
-    a0 = (a0 + a1) / 2;
-
-    for (i = 0; fabs(pow(a0, n) - x) > eps; i++)
-    {
-        a1 = 1.0 / n * ((n - 1) * a0 + x / pow(a0, n - 1));
-        a0 = a1;
-    }
-
-    printf("The %dth degree root of %d is equal to %d\n", n, x, a1);
-    printf("Number of iterations: %d\n", i);
 
     return 0;
 }
